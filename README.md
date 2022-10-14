@@ -46,8 +46,6 @@ All of the commands in this section need to be **executed on the Dokku host mach
 You can name the Keycloak app and database anything you like, but for this example we'll
 stick with "keycloak" to keep things simple.
 
-[Proxy forwarding is required in order for Keycloak](https://stackoverflow.com/questions/44624844/configure-reverse-proxy-for-keycloak-docker-with-custom-base-url#44627360) to work correctly behind the [Nginx reverse proxy](https://dokku.com/docs~v0.24.7/configuration/nginx/).
-
 ```bash
 # App settings
 app="keycloak"
@@ -66,10 +64,9 @@ dokku postgres:link $db $app
 dokku config:set --no-restart $app KEYCLOAK_ADMIN=$user KEYCLOAK_ADMIN_PASSWORD=$password
 dokku config:set --no-restart $app KEYCLOAK_HOSTNAME=$hostname
 dokku config:set --no-restart $app KEYCLOAK_HTTP_PORT=80
-dokku config:set --no-restart $app PROXY_ADDRESS_FORWARDING=true
 
 # Configure port forwarding
-dokku proxy:ports-add $app https:443:80
+dokku proxy:ports-add $app http:80:80
 ```
 
 ## Deploy Keycloak and Verify
@@ -104,6 +101,10 @@ Once the Keycloak deployment has completed, enable HTTPS using Let's Encrypt:
 ```bash
 dokku config:set --no-restart $app DOKKU_LETSENCRYPT_EMAIL=user@example.com
 dokku letsencrypt:enable $app
+
+# Remove forwarding to port 5000
+# TODO: Unsure why this is necessary
+dokku proxy:ports-remove $app https:443:5000
 ```
 
 ### Login to Keycloak

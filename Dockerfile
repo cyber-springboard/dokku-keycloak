@@ -1,8 +1,8 @@
-FROM jboss/keycloak:latest
+FROM quay.io/keycloak/keycloak:latest
 
-COPY docker-entrypoint.sh /opt/jboss/tools
+COPY docker-entrypoint.sh /opt/keycloak/bin/
 
 EXPOSE 80
 
-ENTRYPOINT [ "/opt/jboss/tools/docker-entrypoint.sh" ]
-CMD ["-b", "0.0.0.0"]
+ENTRYPOINT [ "/opt/keycloak/bin/docker-entrypoint.sh" ]
+CMD ["/opt/keycloak/bin/docker-entrypoint.sh"]

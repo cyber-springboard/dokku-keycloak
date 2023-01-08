@@ -23,6 +23,7 @@ fi
 ##################
 
 exec /opt/keycloak/bin/kc.sh start \
+	--log-level=DEBUG \
         --proxy=edge \
         --http-port=$KEYCLOAK_HTTP_PORT \
         --hostname=$KEYCLOAK_HOSTNAME \

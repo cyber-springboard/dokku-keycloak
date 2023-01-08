@@ -22,8 +22,9 @@ fi
 # Start Keycloak #
 ##################
 
+# To adjust log level, add:
+# -Dlogging.level.org.keycloak=DEBUG
 exec /opt/keycloak/bin/kc.sh start \
-	--log-level=DEBUG \
         --proxy=edge \
         --http-port=$KEYCLOAK_HTTP_PORT \
         --hostname=$KEYCLOAK_HOSTNAME \
